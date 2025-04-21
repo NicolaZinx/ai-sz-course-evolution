@@ -1,0 +1,479 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta http-equiv="Content-Security-Policy" content="default-src 'self' 'unsafe-inline' 'unsafe-eval' data: blob: https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://code.jquery.com https://unpkg.com https://d3js.org https://threejs.org https://cdn.plot.ly https://stackpath.bootstrapcdn.com https://maps.googleapis.com https://cdn.tailwindcss.com https://ajax.googleapis.com https://kit.fontawesome.com https://cdn.datatables.net https://maxcdn.bootstrapcdn.com https://code.highcharts.com https://tako-static-assets-production.s3.amazonaws.com https://www.youtube.com https://fonts.googleapis.com https://fonts.gstatic.com https://pfst.cf2.poecdn.net https://puc.poecdn.net https://i.imgur.com https://wikimedia.org https://*.icons8.com https://*.giphy.com https://picsum.photos https://images.unsplash.com; frame-src 'self' https://www.youtube.com https://trytako.com; child-src 'self'; manifest-src 'self'; worker-src 'self'; upgrade-insecure-requests; block-all-mixed-content;">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI思政课一点通发展历程</title>
+    <style>
+        body {
+            font-family: 'PingFang SC', 'Microsoft YaHei', sans-serif;
+            margin: 0;
+            padding: 15px;
+            background-color: #f5f7fa;
+            color: #333;
+            overflow-x: hidden;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        
+        .header h1 {
+            color: #1a4e8e;
+            font-size: 28px;
+            margin-bottom: 5px;
+        }
+        
+        .header p {
+            color: #666;
+            font-size: 14px;
+            margin: 0;
+        }
+        
+        .timeline-container {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .version-card {
+            flex: 1;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            height: calc(100vh - 120px); /* Ensure it fits in viewport */
+            max-height: 600px;
+            min-width: 300px;
+        }
+        
+        .version-header {
+            background-color: #1a4e8e;
+            color: white;
+            padding: 10px 0;
+            text-align: center;
+            position: relative;
+        }
+        
+        .date-badge {
+            background-color: #1a4e8e;
+            color: white;
+            padding: 6px 12px;
+            font-weight: bold;
+            font-size: 14px;
+        }
+        
+        .version-title {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 15px 0;
+            border-bottom: 1px solid #eaeaea;
+        }
+        
+        .version-number {
+            font-size: 32px;
+            color: #4a84db;
+            font-weight: bold;
+            margin-right: 10px;
+        }
+        
+        .version-name {
+            font-size: 20px;
+            color: #333;
+            font-weight: bold;
+        }
+        
+        .features {
+            padding: 15px;
+            flex-grow: 1;
+            overflow-y: auto;
+        }
+        
+        .feature-title {
+            color: #4a84db;
+            font-weight: bold;
+            font-size: 15px;
+            margin-bottom: 12px;
+        }
+        
+        .feature-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        
+        .feature-item {
+            margin-bottom: 10px;
+            position: relative;
+            padding-left: 20px;
+            line-height: 1.4;
+            font-size: 13px;
+        }
+        
+        .feature-item:before {
+            content: "➤";
+            position: absolute;
+            left: 0;
+            color: #4a84db;
+        }
+        
+        .demo-section {
+            padding: 10px;
+            background-color: #f7f9fc;
+            margin-top: auto;
+        }
+        
+        .interface-container {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            height: 180px; /* Reduced height */
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .interface-header {
+            background-color: #1a4e8e;
+            color: white;
+            padding: 8px;
+            text-align: center;
+            font-weight: bold;
+            font-size: 13px;
+        }
+        
+        .interface-content {
+            padding: 10px;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+        
+        .chat-content {
+            overflow-y: auto;
+            flex-grow: 1;
+            padding-right: 5px;
+            font-size: 12px;
+        }
+        
+        .message {
+            margin-bottom: 8px;
+        }
+        
+        .user-message {
+            background-color: #edf2fd;
+            padding: 6px 10px;
+            border-radius: 12px 12px 2px 12px;
+            max-width: 90%;
+            display: inline-block;
+        }
+        
+        .bot-message {
+            background-color: #f1f1f1;
+            padding: 6px 10px;
+            border-radius: 12px 12px 12px 2px;
+            max-width: 90%;
+            display: inline-block;
+        }
+        
+        .input-area {
+            display: flex;
+            border-top: 1px solid #eee;
+            padding: 8px;
+            margin-top: 5px;
+        }
+        
+        .input-field {
+            flex: 1;
+            border: none;
+            background-color: #f1f1f1;
+            border-radius: 15px;
+            padding: 6px 12px;
+            font-size: 12px;
+            margin-right: 8px;
+        }
+        
+        .send-button {
+            background-color: #1a4e8e;
+            color: white;
+            border: none;
+            border-radius: 15px;
+            padding: 6px 12px;
+            font-size: 12px;
+            cursor: pointer;
+        }
+        
+        .plugins-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 8px;
+            height: 100%;
+        }
+        
+        .plugin-item {
+            background-color: white;
+            border-radius: 6px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 8px 5px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+        }
+        
+        .plugin-icon {
+            width: 30px;
+            height: 30px;
+            background-color: #4a84db;
+            border-radius: 50%;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 5px;
+            font-size: 14px;
+            font-weight: bold;
+        }
+        
+        .plugin-name {
+            font-size: 12px;
+            text-align: center;
+        }
+        
+        .highlights {
+            background-color: #eaf2ff;
+            padding: 10px 15px;
+            text-align: center;
+            font-size: 12px;
+        }
+        
+        .highlights-title {
+            color: #1a4e8e;
+            font-weight: bold;
+            margin-bottom: 5px;
+            font-size: 14px;
+        }
+        
+        .highlights-content {
+            line-height: 1.4;
+        }
+        
+        .digital-assistant {
+            display: flex;
+            justify-content: center;
+            margin: 8px 0;
+        }
+        
+        .assistant-img {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background-color: #b2ceff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+        
+        .assistant-label {
+            text-align: center;
+            color: #4a84db;
+            font-size: 12px;
+            font-weight: bold;
+            margin-top: 5px;
+        }
+        
+        @media (max-width: 950px) {
+            .timeline-container {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .version-card {
+                max-width: 100%;
+                margin-bottom: 20px;
+                height: auto;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>AI思政课一点通发展历程</h1>
+        <p>从1.0到3.0的迭代升级，展示"AI+思政"在高等教育教学与科研中的创新价值与应用进展</p>
+    </div>
+    
+    <div class="timeline-container">
+        <!-- 1.0版本 -->
+        <div class="version-card">
+            <div class="version-header">
+                <div class="date-badge">2024年3月</div>
+            </div>
+            <div class="version-title">
+                <div class="version-number">1.0</div>
+                <div class="version-name">原型雏形</div>
+            </div>
+            <div class="features">
+                <div class="feature-title">功能定位</div>
+                <ul class="feature-list">
+                    <li class="feature-item">核心问答机器人，围绕"助学、助研、助人"功能定位</li>
+                    <li class="feature-item">初步集成知识库检索+关键词问答能力</li>
+     <li class="feature-item">提供思政知识问答与学习辅助</li>
+                    <li class="feature-item">简约聊天窗口及思政教学核心词条检索</li>
+    <li class="feature-item">交互单轮，语言略显书面化</li>
+                </ul>
+            </div>
+            <div class="demo-section">
+                <div class="interface-container">
+                    <div class="interface-header">AI思政课一点通 1.0</div>
+                    <div class="interface-content">
+                        <div class="chat-content">
+                            <div class="message">
+                                <div class="user-message">请讲解一下习近平新时代中国特色社会主义思想的核心内容</div>
+                            </div>
+                            <div class="message">
+                                <div class="bot-message">习近平新时代中国特色社会主义思想是党的十九大确立的党的指导思想。其核心内容可概括为"八个明确"和"十四个坚持"，核心使命是实现中华民族伟大复兴。</div>
+                            </div>
+                        </div>
+                        <div class="input-area">
+                            <input type="text" class="input-field" placeholder="请输入您的问题...">
+                            <button class="send-button">发送</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="highlights">
+                <div class="highlights-title">1.0版特色亮点</div>
+                <div class="highlights-content">
+                    雏形阶段，验证技术可行性和问答准确度，简约界面提供基础功能，6个班级试点，覆盖574名学生，为后续迭代奠定基础
+                </div>
+            </div>
+        </div>
+        
+        <!-- 2.0版本 -->
+        <div class="version-card">
+            <div class="version-header">
+                <div class="date-badge">2024年10月</div>
+            </div>
+            <div class="version-title">
+                <div class="version-number">2.0</div>
+                <div class="version-name">快速迭代</div>
+            </div>
+            <div class="features">
+                <div class="feature-title">功能强化</div>
+                <ul class="feature-list">
+                    <li class="feature-item">思政垂域“小模型”开发完成</li>
+                    <li class="feature-item">新增丰富的插件功能，扩展应用场景</li>
+        <li class="feature-item">替换基座模型，接入工具：识图、图表生成、文生图等</li>
+                    <li class="feature-item">支持文档批阅、思维导图、新闻论文检索等多模态教学科研场景</li>
+                    <li class="feature-item">开发“苏格拉底马”与“心理咨询专家”插件</li>
+                    <li class="feature-item">与外部平台进行对比测试，快速优化迭代</li>
+                </ul>
+            </div>
+            <div class="demo-section">
+                <div class="interface-container">
+                    <div class="interface-header">AI思政课一点通 2.0</div>
+                    <div class="interface-content">
+                        <div class="plugins-grid">
+                            <div class="plugin-item">
+                                <div class="plugin-icon">文</div>
+                                <div class="plugin-name">资料库</div>
+                            </div>
+                            <div class="plugin-item">
+                                <div class="plugin-icon">图</div>
+                                <div class="plugin-name">多模态</div>
+                            </div>
+                            <div class="plugin-item">
+                                <div class="plugin-icon">效</div>
+                                <div class="plugin-name">功能拓展</div>
+                            </div>
+                            <div class="plugin-item">
+                                <div class="plugin-icon">学</div>
+                                <div class="plugin-name">辩证探讨</div>
+                            </div>
+                            <div class="plugin-item">
+                                <div class="plugin-icon">问</div>
+                                <div class="plugin-name">思政问答</div>
+                            </div>
+                            <div class="plugin-item">
+                                <div class="plugin-icon">+</div>
+                                <div class="plugin-name">更多功能</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="highlights">
+                <div class="highlights-title">2.0版特色亮点</div>
+                <div class="highlights-content">
+                    短期内一个月完成快速迭代，边应用边优化，与外部平台对比测试，极大提升功能模块多样性，面向浙大全部大一学生使用
+                </div>
+            </div>
+        </div>
+        
+        <!-- 3.0版本 -->
+        <div class="version-card">
+            <div class="version-header">
+                <div class="date-badge">2024年12月–2025年1月</div>
+            </div>
+            <div class="version-title">
+                <div class="version-number">3.0</div>
+                <div class="version-name">平台融合</div>
+            </div>
+            <div class="features">
+                <div class="feature-title">全面升级</div>
+                <ul class="feature-list">
+                    <li class="feature-item">接入"浙大先生"平台，实现系统化应用</li>
+                    <li class="feature-item">新增助研功能，更适合学者应用</li>
+                    <li class="feature-item">全新LOGO与数字人形象，优化视觉辨识</li>
+                    <li class="feature-item">思政教学场景深度QA模块</li>
+                    <li class="feature-item">新增师生互动功能与个性化配置</li>
+                </ul>
+            </div>
+            <div class="demo-section">
+                <div class="interface-container">
+                    <div class="interface-header">浙大先生 × AI思政课一点通 3.0</div>
+                    <div class="interface-content">
+                        <div class="digital-assistant">
+                            <div class="assistant-img">
+                                <svg width="60" height="60" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                                    <circle cx="50" cy="50" r="50" fill="#e2e9f7"></circle>
+                                    <circle cx="50" cy="35" r="20" fill="#b2ceff"></circle>
+                                    <path d="M30 70 C30 55, 70 55, 70 70 L70 100 L30 100 Z" fill="#4d7ae8"></path>
+                                    <circle cx="50" cy="35" r="10" fill="#ffffff" opacity="0.3"></circle>
+                                    <path d="M44 30 C44 30, 43 34, 46 34 M56 30 C56 30, 57 34, 54 34" stroke="#333" fill="none" stroke-width="1.5"></path>
+                                    <path d="M45 45 C48 48, 52 48, 55 45" stroke="#333" fill="none" stroke-width="1.5"></path>
+                                </svg>
+                            </div>
+                        </div>
+                        <div class="chat-content">
+                            <div class="message">
+                                <div class="user-message">请帮我分析中国式现代化的理论创新点</div>
+                            </div>
+                            <div class="message">
+                                <div class="bot-message">中国式现代化的理论创新包括五个方面：人口规模巨大的现代化、全体人民共同富裕的现代化、物质文明和精神文明相协调的现代化...</div>
+                            </div>
+                        </div>
+                        <div class="input-area">
+                            <input type="text" class="input-field" placeholder="请输入您的研究问题...">
+                            <button class="send-button">发送</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="assistant-label">数字人助手</div>
+            </div>
+            <div class="highlights">
+                <div class="highlights-title">3.0版特色亮点</div>
+                <div class="highlights-content">
+                    平稳上线"浙大先生"平台，实现大规模人群应用，优化助学效果LOGO、系统界面全面更新，使用人数破4K                </div>
+            </div>
+        </div>
+    </div>
+
+
+</body></html>
